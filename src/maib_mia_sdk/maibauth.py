@@ -1,7 +1,7 @@
 """Python SDK for maib MIA QR API"""
 
 import logging
-from maibmiasdk import MaibMiaSdk, MaibTokenException
+from .maibmiasdk import MaibMiaSdk, MaibTokenException
 
 class MaibAuthRequest:
     """Factory class responsible for creating new instances of the MaibAuth class."""
@@ -20,7 +20,7 @@ class MaibAuth:
         self.__client = client
 
     def generate_token(self, client_id: str, client_secret: str):
-        """Generates a new access token using the given client ID and secret."""
+        """Get Authentication Token"""
 
         if not client_id and not client_secret:
             raise MaibTokenException('Client ID and Client Secret are required.')

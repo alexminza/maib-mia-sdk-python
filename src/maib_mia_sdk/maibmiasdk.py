@@ -17,7 +17,11 @@ class MaibMiaSdk:
     # maib MIA QR API endpoints
     AUTH_TOKEN = 'auth/token'
     MIA_QR = 'mia/qr'
+    MIA_QR_ID = 'mia/qr/{id}'
+    MIA_QR_CANCEL = 'mia/qr/{id}/cancel'
     MIA_PAYMENTS = 'mia/payments'
+    MIA_PAYMENTS_ID = 'mia/payments/{id}'
+    MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
     MIA_TEST_PAY = 'mia/test-pay'
 
     DEFAULT_TIMEOUT = 30
@@ -43,18 +47,18 @@ class MaibMiaSdk:
         url = self.__base_url + url
 
         if entity_id:
-            url = f'{url}/{entity_id}'
+            url = url.format(id=entity_id)
 
         return url
 
-    def send_request(self, method: str, url: str, data: dict = None, token: str = None, entity_id: str = None):
+    def send_request(self, method: str, url: str, data: dict = None, params: dict = None, token: str = None, entity_id: str = None):
         """Send a request and parse the response."""
 
         auth = BearerAuth(token) if token else None
         url = self.__build_url(url=url, entity_id=entity_id)
 
         logging.debug('MaibSdk Request', extra={'method': method, 'url': url, 'data': data})
-        with requests.request(method=method, url=url, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
+        with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
             response_json = response.json()
             logging.debug('MaibSdk Response', extra={'response_json': response_json})
             #response.raise_for_status()

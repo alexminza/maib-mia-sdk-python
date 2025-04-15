@@ -1,7 +1,7 @@
 """Python SDK for maib MIA QR API"""
 
 import logging
-from maibmiasdk import MaibMiaSdk, MaibPaymentException
+from .maibmiasdk import MaibMiaSdk, MaibPaymentException
 
 class MaibApiRequest:
     """Factory class responsible for creating new instances of the MaibApi class."""
@@ -22,41 +22,61 @@ class MaibApi:
     def __init__(self, client: MaibMiaSdk):
         self.__client = client
 
-    def create_qr(self, data: dict, token: str):
-        """Sends a request to the create QR endpoint."""
+    def qr_create(self, data: dict, token: str):
+        """Create QR"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=data, token=token, required_params=self.REQUIRED_QR_PARAMS)
 
+    def qr_details(self, qr_id: str, token: str):
+        """Get QR details by QR ID"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_ID, entity_id=qr_id, token=token)
+
+    def qr_cancel(self, qr_id: str, data: dict, token: str):
+        """Cancel active QR by QR ID"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_CANCEL, entity_id=qr_id, token=token, method='POST', data=data)
+
+    def qr_list(self, params: dict, token: str):
+        """Get QR list with filter"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR, entity_id=None, params=params, token=token)
+
     def test_pay(self, data: dict, token: str):
-        """Sends a request to the test pay endpoint."""
+        """Simulation of test payment"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_TEST_PAY, data=data, token=token, required_params=self.REQUIRED_TEST_PAY_PARAMS)
 
     def payment_details(self, pay_id: str, token: str):
-        """Sends a request to the pay-info endpoint."""
-        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, entity_id=pay_id, token=token)
+        """Get payment details by payment ID"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_ID, entity_id=pay_id, token=token)
 
-    def __execute_operation(self, endpoint: str, data: dict, token: str, required_params: list, method: str = 'POST'):
+    def payment_refund(self, pay_id: str, data: dict, token: str):
+        """Refund payment by payment ID"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
+
+    def payment_list(self, params: dict, token: str):
+        """Get payments list with filter"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, entity_id=None, params=params, token=token)
+
+    def __execute_operation(self, endpoint: str, data: dict, token: str, required_params: list, method: str = 'POST', params: dict = None):
         try:
             self.__validate_params(data=data, required_params=required_params)
             self.__validate_access_token(token=token)
-            return self.__send_request(method=method, endpoint=endpoint, data=data, token=token)
+            return self.__send_request(method=method, endpoint=endpoint, data=data, params=params, token=token)
         except MaibPaymentException as ex:
             logging.exception('MaibApi.__execute_operation')
             raise MaibPaymentException(f'Invalid request: {ex}') from ex
 
-    def __execute_entity_id_operation(self, endpoint: str, entity_id: str, token: str, method: str = 'GET'):
+    def __execute_entity_id_operation(self, endpoint: str, entity_id: str, token: str, method: str = 'GET', data: dict = None, params: dict = None):
         try:
             self.__validate_id_param(entity_id=entity_id)
             self.__validate_access_token(token=token)
-            return self.__send_request(method=method, endpoint=endpoint, token=token, entity_id=entity_id)
+            return self.__send_request(method=method, endpoint=endpoint, token=token, data=data, params=params, entity_id=entity_id)
         except MaibPaymentException as ex:
             logging.exception('MaibApi.__execute_entity_id_operation')
             raise MaibPaymentException(f'Invalid request: {ex}') from ex
 
-    def __send_request(self, method: str, endpoint: str, token: str, data: dict = None, entity_id: str = None):
+    def __send_request(self, method: str, endpoint: str, token: str, data: dict = None, params: dict = None, entity_id: str = None):
         """Sends a request to the specified endpoint."""
 
         try:
-            response = self.__client.send_request(method=method, url=endpoint, data=data, token=token, entity_id=entity_id)
+            response = self.__client.send_request(method=method, url=endpoint, data=data, params=params, token=token, entity_id=entity_id)
         except Exception as ex:
             raise MaibPaymentException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
