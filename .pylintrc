@@ -1,0 +1,39 @@
+[MAIN]
+
+# A comma-separated list of package or module names from where C extensions may
+# be loaded. Extensions are loading into the active Python interpreter and may
+# run arbitrary code. (This is an alternative name to extension-pkg-allow-list
+# for backward compatibility.)
+#extension-pkg-whitelist=lxml
+
+[MESSAGES CONTROL]
+
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifiers separated by comma (,) or put this
+# option multiple times (only on the command line, not in the configuration
+# file where it should appear only once). You can also use "--disable=all" to
+# disable everything first and then re-enable specific checks. For example, if
+# you want to run only the similarities checker, you can use "--disable=all
+# --enable=similarities". If you want to run only the classes checker, but have
+# no Warning level messages displayed, use "--disable=all --enable=classes
+# --disable=W".
+disable=line-too-long,
+      too-few-public-methods,
+      #invalid-name,
+      #no-name-in-module,
+      #missing-module-docstring,
+      #missing-class-docstring,
+      #missing-function-docstring,
+      #too-many-lines,
+      #multiple-statements,
+      #multiple-imports,
+      #broad-except,
+      #logging-fstring-interpolation,
+      #global-statement,
+      #c-extension-no-member
+
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once). See also the "--disable" option for examples.
+enable=useless-suppression
