@@ -1,9 +1,9 @@
 """Python SDK for maib MIA QR API"""
 
 import logging
-from .maibmiasdk import MaibMiaSdk, MaibPaymentException
+from .maib_mia_sdk import MaibMiaSdk, MaibPaymentException
 
-class MaibApiRequest:
+class MaibMiaApiRequest:
     """Factory class responsible for creating new instances of the MaibApi class."""
 
     @staticmethod
@@ -11,9 +11,9 @@ class MaibApiRequest:
         """Creates a new instance of MaibApi."""
 
         client = MaibMiaSdk(base_url=base_url)
-        return MaibApi(client)
+        return MaibMiaApi(client)
 
-class MaibApi:
+class MaibMiaApi:
     __client: MaibMiaSdk = None
 
     REQUIRED_QR_PARAMS = ['type', 'amountType', 'currency']

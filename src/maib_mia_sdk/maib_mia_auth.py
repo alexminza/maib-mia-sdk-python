@@ -1,9 +1,9 @@
 """Python SDK for maib MIA QR API"""
 
 import logging
-from .maibmiasdk import MaibMiaSdk, MaibTokenException
+from .maib_mia_sdk import MaibMiaSdk, MaibTokenException
 
-class MaibAuthRequest:
+class MaibMiaAuthRequest:
     """Factory class responsible for creating new instances of the MaibAuth class."""
 
     @staticmethod
@@ -11,9 +11,9 @@ class MaibAuthRequest:
         """Creates an instance of the MaibAuth class."""
 
         client = MaibMiaSdk(base_url=base_url)
-        return MaibAuth(client)
+        return MaibMiaAuth(client)
 
-class MaibAuth:
+class MaibMiaAuth:
     __client: MaibMiaSdk = None
 
     def __init__(self, client: MaibMiaSdk):
