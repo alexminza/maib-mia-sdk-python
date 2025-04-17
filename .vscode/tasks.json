@@ -4,6 +4,15 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "PyPI release",
+            "dependsOn": [
+                "Python: build",
+                "Python: twine upload",
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
             //https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives
             "label": "Python: build",
             "type": "shell",
