@@ -1,0 +1,80 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "PyPI release",
+            "dependsOn": [
+                "Python: clean",
+                "Python: build",
+                "Python: twine upload",
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "Python: clean",
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "-c",
+                "rm -rf ./dist ./src/*.egg-info || true"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            //https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives
+            "label": "Python: build",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "-m",
+                "build"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            //https://packaging.python.org/en/latest/tutorials/packaging-projects/#uploading-the-distribution-archives
+            "label": "Python: twine upload",
+            "type": "shell",
+            "command": "${command:python.interpreterPath}",
+            "args": [
+                "-m",
+                "twine",
+                "upload",
+                "--repository",
+                "${input:twineRepository}",
+                "dist/*",
+                "--skip-existing",
+                "--verbose"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "twineRepository",
+            "type": "pickString",
+            "description": "Twine Repository",
+            "default": "testpypi",
+            "options": [
+                "testpypi",
+                "pypi"
+            ]
+        }
+    ]
+}
