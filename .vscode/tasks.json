@@ -6,11 +6,25 @@
         {
             "label": "PyPI release",
             "dependsOn": [
+                "Python: clean",
                 "Python: build",
                 "Python: twine upload",
             ],
             "dependsOrder": "sequence",
             "problemMatcher": []
+        },
+        {
+            "label": "Python: clean",
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "-c",
+                "rm -rf ./dist ./src/*.egg-info || true"
+            ],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
         },
         {
             //https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives
