@@ -34,7 +34,7 @@ class MaibMiaSdk:
 
     @classmethod
     def get_instance(cls):
-        """Get the instance of MaibSdk (Singleton pattern)"""
+        """Get the instance of MaibMiaSdk (Singleton pattern)"""
 
         if cls.__instance is None:
             cls.__instance = cls()
@@ -57,10 +57,10 @@ class MaibMiaSdk:
         auth = BearerAuth(token) if token else None
         url = self.__build_url(url=url, entity_id=entity_id)
 
-        logging.debug('MaibSdk Request', extra={'method': method, 'url': url, 'data': data})
+        logging.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
             response_json = response.json()
-            logging.debug('MaibSdk Response', extra={'response_json': response_json})
+            logging.debug('MaibMiaSdk Response', extra={'response_json': response_json})
             #response.raise_for_status()
             return response_json
 
@@ -90,12 +90,15 @@ class MaibMiaSdk:
         #https://github.com/maib-ecomm/maib-sdk-php/blob/main/examples/callbackUrl.php
         #https://github.com/alexminza/maib-ecommerce-sdk-python/blob/main/src/maib_ecommerce_sdk/maibsdk.py#L89
 
+        if not signature_key:
+            raise MaibPaymentException('Invalid signature key')
+
         callback_signature = callback_data.get('signature')
         if not callback_signature:
             raise MaibPaymentException('Missing callback signature')
 
         callback_result = callback_data['result']
-        sorted_callback_result = {key: str(value) for key, value in sorted(callback_result.items())}
+        sorted_callback_result = {key: (str(value) if value is not None else '') for key, value in sorted(callback_result.items())}
         sorted_callback_values = list(sorted_callback_result.values())
         sorted_callback_values.append(signature_key)
 

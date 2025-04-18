@@ -4,11 +4,11 @@ import logging
 from .maib_mia_sdk import MaibMiaSdk, MaibTokenException
 
 class MaibMiaAuthRequest:
-    """Factory class responsible for creating new instances of the MaibAuth class."""
+    """Factory class responsible for creating new instances of the MaibMiaAuth class."""
 
     @staticmethod
     def create(base_url: str = MaibMiaSdk.DEFAULT_BASE_URL):
-        """Creates an instance of the MaibAuth class."""
+        """Creates an instance of the MaibMiaAuth class."""
 
         client = MaibMiaSdk(base_url=base_url)
         return MaibMiaAuth(client)
@@ -33,7 +33,7 @@ class MaibMiaAuth:
         try:
             response = self.__client.send_request('POST', MaibMiaSdk.AUTH_TOKEN, post_data)
         except Exception as ex:
-            logging.exception('MaibAuth.generate_token')
+            logging.exception('MaibMiaAuth.generate_token')
             raise MaibTokenException(f'HTTP error while sending POST request to endpoint {MaibMiaSdk.AUTH_TOKEN}') from ex
 
         result = self.__client.handle_response(response, MaibMiaSdk.AUTH_TOKEN)
