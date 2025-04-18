@@ -36,7 +36,7 @@ class MaibMiaApi:
 
     def qr_list(self, params: dict, token: str):
         """Get QR list with filter"""
-        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR, entity_id=None, params=params, token=token)
+        return self.__execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=None, token=token, required_params=None, method='GET', params=params)
 
     def test_pay(self, data: dict, token: str):
         """Simulation of test payment"""
@@ -52,7 +52,7 @@ class MaibMiaApi:
 
     def payment_list(self, params: dict, token: str):
         """Get payments list with filter"""
-        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, entity_id=None, params=params, token=token)
+        return self.__execute_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, data=None, token=token, required_params=None, method='GET', params=params)
 
     def __execute_operation(self, endpoint: str, data: dict, token: str, required_params: list, method: str = 'POST', params: dict = None):
         try:
@@ -103,9 +103,10 @@ class MaibMiaApi:
     def __validate_params(data: dict, required_params: list):
         """Validates the parameters."""
 
-        # Check that all required parameters are present
-        for param in required_params:
-            if data.get(param) is None:
-                raise MaibPaymentException(f'Missing required parameter: {param}')
+        if data and required_params:
+            # Check that all required parameters are present
+            for param in required_params:
+                if data.get(param) is None:
+                    raise MaibPaymentException(f'Missing required parameter: {param}')
 
         return True
