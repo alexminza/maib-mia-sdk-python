@@ -93,16 +93,18 @@ class MaibMiaSdk:
         if not signature_key:
             raise MaibPaymentException('Invalid signature key')
 
-        callback_signature = callback_data.get('signature')
-        if not callback_signature:
-            raise MaibPaymentException('Missing callback signature')
-
+        callback_signature = callback_data['signature']
         callback_result = callback_data['result']
-        sorted_callback_result = {key: (str(value) if value is not None else '') for key, value in sorted(callback_result.items())}
-        sorted_callback_values = list(sorted_callback_result.values())
-        sorted_callback_values.append(signature_key)
+        sorted_callback_result = sorted(((key.lower(), value) for key, value in callback_result.items()))
+        filtered_callback_result = {
+            key: (f'{float(value):.2f}' if isinstance(value, (int, float)) else str(value))
+            for key, value in sorted_callback_result
+            if value not in [None, '']
+        }
 
-        sign_string = ':'.join(sorted_callback_values)
+        sign_callback_values = list(filtered_callback_result.values())
+        sign_callback_values.append(signature_key)
+        sign_string = ':'.join(sign_callback_values)
         calculated_signature = base64.b64encode(hashlib.sha256(sign_string.encode()).digest()).decode()
 
         return calculated_signature == callback_signature
