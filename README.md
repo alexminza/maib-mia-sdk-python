@@ -77,7 +77,9 @@ callback_data = {
     "signature": "fHM+l4L1ycFWZDRTh/Vr8oybq1Q1xySdjyvmFQCmZ4s="
 }
 
-validate_callback_result = MaibMiaSdk.validate_callback_signature(callback_data=callback_data, signature_key=MAIB_MIA_SIGNATURE_KEY)
+validate_callback_result = MaibMiaSdk.validate_callback_signature(
+    callback_data=callback_data,
+    signature_key=MAIB_MIA_SIGNATURE_KEY)
 ```
 
 ### Perform a test QR payment
