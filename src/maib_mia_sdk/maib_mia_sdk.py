@@ -59,7 +59,7 @@ class MaibMiaSdk:
 
         logging.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data, 'params': params})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
-            response_json = response.json()
+            response_json: dict = response.json()
             logging.debug('MaibMiaSdk Response', extra={'response_json': response_json})
             #response.raise_for_status()
             return response_json
@@ -70,7 +70,7 @@ class MaibMiaSdk:
 
         response_ok = response.get('ok')
         if response_ok is not None and response_ok is True:
-            response_result = response.get('result')
+            response_result: dict = response.get('result')
             if response_result is not None:
                 return response_result
 
