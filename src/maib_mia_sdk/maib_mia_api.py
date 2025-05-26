@@ -3,6 +3,8 @@
 import logging
 from .maib_mia_sdk import MaibMiaSdk, MaibPaymentException
 
+logger = logging.getLogger(__name__)
+
 class MaibMiaApiRequest:
     """Factory class responsible for creating new instances of the MaibMiaApi class."""
 
@@ -60,7 +62,7 @@ class MaibMiaApi:
             self.__validate_access_token(token=token)
             return self.__send_request(method=method, endpoint=endpoint, data=data, params=params, token=token)
         except MaibPaymentException as ex:
-            logging.exception('MaibMiaApi.__execute_operation')
+            logger.exception('MaibMiaApi.__execute_operation')
             raise MaibPaymentException(f'Invalid request: {ex}') from ex
 
     def __execute_entity_id_operation(self, endpoint: str, entity_id: str, token: str, method: str = 'GET', data: dict = None, params: dict = None):
@@ -69,7 +71,7 @@ class MaibMiaApi:
             self.__validate_access_token(token=token)
             return self.__send_request(method=method, endpoint=endpoint, token=token, data=data, params=params, entity_id=entity_id)
         except MaibPaymentException as ex:
-            logging.exception('MaibMiaApi.__execute_entity_id_operation')
+            logger.exception('MaibMiaApi.__execute_entity_id_operation')
             raise MaibPaymentException(f'Invalid request: {ex}') from ex
 
     def __send_request(self, method: str, endpoint: str, token: str, data: dict = None, params: dict = None, entity_id: str = None):
