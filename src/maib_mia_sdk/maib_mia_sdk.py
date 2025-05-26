@@ -57,10 +57,10 @@ class MaibMiaSdk:
         auth = BearerAuth(token) if token else None
         url = self.__build_url(url=url, entity_id=entity_id)
 
-        logging.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data, 'params': params})
+        logging.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
-            response_json: dict = response.json()
-            logging.debug('MaibMiaSdk Response', extra={'response_json': response_json})
+            response_json: dict = response.json() if response.ok else None
+            logging.debug('MaibMiaSdk Response', extra={'response_json': response_json, 'response_text': response.text, 'status_code': response.status_code})
             #response.raise_for_status()
             return response_json
 
