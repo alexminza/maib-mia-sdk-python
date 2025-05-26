@@ -61,9 +61,13 @@ class MaibMiaSdk:
 
         logger.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
-            response_json: dict = response.json() if response.ok else None
-            logger.debug('MaibMiaSdk Response', extra={'response_json': response_json, 'response_text': response.text, 'status_code': response.status_code})
-            #response.raise_for_status()
+            if not response.ok:
+                logger.error('MaibMiaSdk Error', extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
+                #response.raise_for_status()
+                return None
+
+            response_json: dict = response.json()
+            logger.debug('MaibMiaSdk Response', extra={'response_json': response_json})
             return response_json
 
     @staticmethod
@@ -137,7 +141,7 @@ class BearerAuth(requests.auth.AuthBase):
     def __init__(self, token: str):
         self.token = token
 
-    def __call__(self, request: requests.PreparedRequest) -> requests.PreparedRequest:
+    def __call__(self, request: requests.PreparedRequest):
         request.headers["Authorization"] = f'Bearer {self.token}'
         return request
 #endregion

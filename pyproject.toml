@@ -1,6 +1,6 @@
 [project]
 name = "maib-mia-sdk"
-version = "1.0.7"
+version = "1.0.8"
 authors = [
   { name="Alexander Minza" },
 ]
