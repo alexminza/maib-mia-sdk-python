@@ -3,6 +3,7 @@
 import json
 import logging
 import hashlib
+import hmac
 import base64
 
 import requests
@@ -99,8 +100,12 @@ class MaibMiaSdk:
         if not signature_key:
             raise MaibPaymentException('Invalid signature key')
 
-        callback_signature = callback_data['signature']
-        callback_result = callback_data['result']
+        callback_signature = callback_data.get('signature')
+        callback_result = callback_data.get('result')
+
+        if not callback_signature or not callback_result:
+            raise MaibPaymentException('Missing result or signature in callback data.')
+
         sorted_callback_result = sorted(((key.lower(), value) for key, value in callback_result.items()))
         filtered_callback_result = {
             key: (f'{float(value):.2f}' if isinstance(value, (int, float)) else str(value))
@@ -113,7 +118,7 @@ class MaibMiaSdk:
         sign_string = ':'.join(sign_callback_values)
         calculated_signature = base64.b64encode(hashlib.sha256(sign_string.encode()).digest()).decode()
 
-        return calculated_signature == callback_signature
+        return hmac.compare_digest(calculated_signature, callback_signature)
 
     @staticmethod
     def get_error_message(response: str):
