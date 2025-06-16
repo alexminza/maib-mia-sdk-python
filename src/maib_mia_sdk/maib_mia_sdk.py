@@ -19,6 +19,7 @@ class MaibMiaSdk:
 
     # maib MIA QR API endpoints
     AUTH_TOKEN = 'auth/token'
+
     MIA_QR = 'mia/qr'
     MIA_QR_ID = 'mia/qr/{id}'
     MIA_QR_CANCEL = 'mia/qr/{id}/cancel'
@@ -26,6 +27,13 @@ class MaibMiaSdk:
     MIA_PAYMENTS_ID = 'mia/payments/{id}'
     MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
     MIA_TEST_PAY = 'mia/test-pay'
+
+    MIA_RTP = 'rtp'
+    MIA_RTP_ID = 'rtp/{id}'
+    MIA_RTP_CANCEL = 'rtp/{id}/cancel'
+    MIA_RTP_REFUND = 'rtp/{id}/refund'
+    MIA_RTP_TEST_ACCEPT = 'rtp/{id}/test-accept'
+    MIA_RTP_TEST_REJECT = 'rtp/{id}/test-reject'
 
     DEFAULT_TIMEOUT = 30
 

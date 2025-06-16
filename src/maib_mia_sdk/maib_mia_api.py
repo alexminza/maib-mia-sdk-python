@@ -20,10 +20,13 @@ class MaibMiaApi:
 
     REQUIRED_QR_PARAMS = ['type', 'amountType', 'currency']
     REQUIRED_TEST_PAY_PARAMS = ['qrId', 'amount', 'iban', 'currency', 'payerName']
+    REQUIRED_RTP_PARAMS = ['alias', 'amount', 'currency', 'expiresAt', 'description']
+    REQUIRED_TEST_ACCEPT_PARAMS = ['amount', 'currency']
 
     def __init__(self, client: MaibMiaSdk):
         self.__client = client
 
+    #region QR
     def qr_create(self, data: dict, token: str):
         """Create QR"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=data, token=token, required_params=self.REQUIRED_QR_PARAMS)
@@ -39,7 +42,9 @@ class MaibMiaApi:
     def qr_list(self, params: dict, token: str):
         """Get QR list with filter"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=None, token=token, required_params=None, method='GET', params=params)
+    #endregion
 
+    #region Payment
     def test_pay(self, data: dict, token: str):
         """Simulation of test payment"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_TEST_PAY, data=data, token=token, required_params=self.REQUIRED_TEST_PAY_PARAMS)
@@ -55,6 +60,37 @@ class MaibMiaApi:
     def payment_list(self, params: dict, token: str):
         """Get payments list with filter"""
         return self.__execute_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, data=None, token=token, required_params=None, method='GET', params=params)
+    #endregion
+
+    #region RTP
+    def rtp_create(self, data: dict, token: str):
+        """Creates an individual payment request (Request to Pay), which will be sent to the end user through the banking application."""
+        return self.__execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=data, token=token, required_params=self.REQUIRED_RTP_PARAMS)
+
+    def rtp_status(self, rtp_id: str, token: str):
+        """Get the current status of an RTP request."""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_ID, entity_id=rtp_id, token=token)
+
+    def rtp_cancel(self, rtp_id: str, data: dict, token: str):
+        """Cancels an RTP request that is in pending status. The request cannot be canceled if it has already been accepted, rejected, or expired."""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_CANCEL, entity_id=rtp_id, token=token, method='POST', data=data)
+
+    def rtp_list(self, params: dict, token: str):
+        """Returns the list of RTP requests for the merchant, with filtering options."""
+        return self.__execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=None, token=token, required_params=None, method='GET', params=params)
+
+    def rtp_refund(self, pay_id: str, data: dict, token: str):
+        """Initiate Refund for a RTP with Accepted status"""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
+
+    def rtp_test_accept(self, rtp_id: str, data: dict, token: str):
+        """Test RTP simulation is only allowed in the sandbox environment."""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_ACCEPT, entity_id=rtp_id, token=token, method='POST', data=data)
+
+    def rtp_test_reject(self, rtp_id: str, token: str):
+        """Test RTP simulation is only allowed in the sandbox environment."""
+        return self.__execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_REJECT, entity_id=rtp_id, token=token, method='POST')
+    #endregion
 
     def __execute_operation(self, endpoint: str, data: dict, token: str, required_params: list, method: str = 'POST', params: dict = None):
         try:
