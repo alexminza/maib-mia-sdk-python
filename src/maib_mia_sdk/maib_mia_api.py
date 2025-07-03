@@ -93,22 +93,14 @@ class MaibMiaApi:
     #endregion
 
     def _execute_operation(self, endpoint: str, data: dict, token: str, required_params: list, method: str = 'POST', params: dict = None):
-        try:
-            self._validate_params(data=data, required_params=required_params)
-            self._validate_access_token(token=token)
-            return self._send_request(method=method, endpoint=endpoint, data=data, params=params, token=token)
-        except MaibPaymentException as ex:
-            logger.exception('MaibMiaApi._execute_operation')
-            raise MaibPaymentException(f'Invalid request: {ex}') from ex
+        self._validate_params(data=data, required_params=required_params)
+        self._validate_access_token(token=token)
+        return self._send_request(method=method, endpoint=endpoint, data=data, params=params, token=token)
 
     def _execute_entity_id_operation(self, endpoint: str, entity_id: str, token: str, method: str = 'GET', data: dict = None, params: dict = None):
-        try:
-            self._validate_id_param(entity_id=entity_id)
-            self._validate_access_token(token=token)
-            return self._send_request(method=method, endpoint=endpoint, token=token, data=data, params=params, entity_id=entity_id)
-        except MaibPaymentException as ex:
-            logger.exception('MaibMiaApi._execute_entity_id_operation')
-            raise MaibPaymentException(f'Invalid request: {ex}') from ex
+        self._validate_id_param(entity_id=entity_id)
+        self._validate_access_token(token=token)
+        return self._send_request(method=method, endpoint=endpoint, token=token, data=data, params=params, entity_id=entity_id)
 
     def _send_request(self, method: str, endpoint: str, token: str, data: dict = None, params: dict = None, entity_id: str = None):
         """Sends a request to the specified endpoint."""

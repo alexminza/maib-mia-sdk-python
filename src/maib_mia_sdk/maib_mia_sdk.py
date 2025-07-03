@@ -73,7 +73,6 @@ class MaibMiaSdk:
             if not response.ok:
                 logger.error('MaibMiaSdk Error: %d %s', response.status_code, response.text, extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
                 #response.raise_for_status()
-                return None
 
             response_json: dict = response.json()
             logger.debug('MaibMiaSdk Response: %d', response.status_code, extra={'response_json': response_json})
