@@ -1,4 +1,4 @@
-"""Python SDK for maib MIA QR API"""
+"""Python SDK for maib MIA API"""
 
 import json
 import logging
@@ -13,11 +13,11 @@ import requests
 logger = logging.getLogger(__name__)
 
 class MaibMiaSdk:
-    # maib MIA QR API base urls
+    # maib MIA QR base urls
     DEFAULT_BASE_URL = 'https://api.maibmerchants.md/v2/'
     SANDBOX_BASE_URL = 'https://sandbox.maibmerchants.md/v2/'
 
-    # maib MIA QR API endpoints
+    # maib MIA QR endpoints
     AUTH_TOKEN = 'auth/token'
 
     MIA_QR = 'mia/qr'

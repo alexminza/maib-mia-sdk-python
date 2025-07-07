@@ -1,4 +1,4 @@
-"""Python SDK for maib MIA QR API"""
+"""Python SDK for maib MIA API"""
 
 import logging
 
