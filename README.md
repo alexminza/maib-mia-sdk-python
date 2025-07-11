@@ -44,7 +44,7 @@ maib_mia_qr_data = {
     'amount': 50.00,
     'currency': 'MDL',
     'orderId': '123',
-    'description': 'Order description',
+    'description': f'Order #123',
     'callbackUrl': 'https://example.com/callback',
     'redirectUrl': 'https://example.com/success'
 }
@@ -52,6 +52,25 @@ maib_mia_qr_data = {
 maib_mia_api_request = MaibMiaApiRequest.create(base_url=MaibMiaSdk.SANDBOX_BASE_URL)
 maib_mia_create_qr_response = maib_mia_api_request.qr_create(
     data=maib_mia_qr_data,
+    token=maib_mia_token)
+```
+
+### Create a RTP (Request To Pay)
+
+```python
+maib_mia_rtp_data = {
+    'alias': '3736xxxxxxx',
+    'amount': 50.00,
+    'currency': 'MDL',
+    'expiresAt': (datetime.datetime.now() + datetime.timedelta(hours=24)).isoformat(),
+    'description': f'Order #123',
+    'orderId': '123',
+    'callbackUrl': 'https://example.com/callback',
+    'redirectUrl': 'https://example.com/success'
+}
+
+maib_mia_create_rtp_response = maib_mia_api_request.rtp_create(
+    data=maib_mia_rtp_data,
     token=maib_mia_token)
 ```
 
