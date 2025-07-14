@@ -29,36 +29,45 @@ class MaibMiaApi:
     #region QR
     def qr_create(self, data: dict, token: str):
         """Create QR"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/overview/mia-qr-types
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=data, token=token, required_params=self.REQUIRED_QR_PARAMS)
 
     def qr_details(self, qr_id: str, token: str):
         """Get QR details by QR ID"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-qr-details-by-id
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_ID, entity_id=qr_id, token=token)
 
     def qr_cancel(self, qr_id: str, data: dict, token: str):
         """Cancel active QR by QR ID"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-cancellation/cancel-active-qr-static-dynamic
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_CANCEL, entity_id=qr_id, token=token, method='POST', data=data)
 
     def qr_list(self, params: dict, token: str):
         """Get QR list with filter"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/display-list-of-qr-codes-with-filtering-options
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=None, token=token, required_params=None, method='GET', params=params)
     #endregion
 
     #region Payment
     def test_pay(self, data: dict, token: str):
         """Simulation of test payment"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_TEST_PAY, data=data, token=token, required_params=self.REQUIRED_TEST_PAY_PARAMS)
 
     def payment_details(self, pay_id: str, token: str):
         """Get payment details by payment ID"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-payment-details-by-id
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_ID, entity_id=pay_id, token=token)
 
     def payment_refund(self, pay_id: str, data: dict, token: str):
         """Refund payment by payment ID"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-refund/refund-completed-payment
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     def payment_list(self, params: dict, token: str):
         """Get payments list with filter"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-list-of-payments-with-filtering-options
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, data=None, token=token, required_params=None, method='GET', params=params)
     #endregion
 

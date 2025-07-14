@@ -23,6 +23,7 @@ class MaibMiaAuth:
 
     def generate_token(self, client_id: str, client_secret: str):
         """Get Authentication Token"""
+        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/authentication/obtain-authentication-token
 
         if not client_id and not client_secret:
             raise MaibTokenException('Client ID and Client Secret are required.')

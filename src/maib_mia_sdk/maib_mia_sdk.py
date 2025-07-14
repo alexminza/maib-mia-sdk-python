@@ -102,7 +102,7 @@ class MaibMiaSdk:
     @staticmethod
     def validate_callback_signature(callback_data: dict, signature_key: str):
         """Validates the callback data signature."""
-        #https://docs.maibmerchants.md/en/notifications-on-callback-url
+        #https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
         #https://github.com/maib-ecomm/maib-sdk-php/blob/main/examples/callbackUrl.php
         #https://github.com/alexminza/maib-ecommerce-sdk-python/blob/main/src/maib_ecommerce_sdk/maibsdk.py#L89
 
