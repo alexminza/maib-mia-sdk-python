@@ -21,8 +21,11 @@ class MaibMiaSdk:
     AUTH_TOKEN = 'auth/token'
 
     MIA_QR = 'mia/qr'
+    MIA_QR_HYBRID = 'mia/qr/hybrid'
     MIA_QR_ID = 'mia/qr/{id}'
+    MIA_QR_EXTENSION = 'mia/qr/{id}/extension'
     MIA_QR_CANCEL = 'mia/qr/{id}/cancel'
+    MIA_QR_EXTENSION_CANCEL = 'mia/qr/{id}/extension/cancel'
     MIA_PAYMENTS = 'mia/payments'
     MIA_PAYMENTS_ID = 'mia/payments/{id}'
     MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
