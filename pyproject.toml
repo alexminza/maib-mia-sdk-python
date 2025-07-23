@@ -10,12 +10,11 @@ requires-python = ">=3.9"
 keywords = ["maib", "moldova", "mia", "qr", "rtp", "payments", "api", "sdk", "python"]
 classifiers = [
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
-license.text = "GPL-3.0-or-later"
+license = "GPL-3.0-or-later"
 
 [project.urls]
 Homepage = "https://github.com/alexminza/maib-mia-sdk-python"

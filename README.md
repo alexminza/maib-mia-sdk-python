@@ -45,7 +45,7 @@ maib_mia_qr_data = {
     'amount': 50.00,
     'currency': 'MDL',
     'orderId': '123',
-    'description': f'Order #123',
+    'description': 'Order #123',
     'callbackUrl': 'https://example.com/callback',
     'redirectUrl': 'https://example.com/success'
 }
