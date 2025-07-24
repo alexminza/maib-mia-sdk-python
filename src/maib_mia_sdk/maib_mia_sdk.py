@@ -1,4 +1,4 @@
-"""Python SDK for maib MIA QR API"""
+"""Python SDK for maib MIA API"""
 
 import json
 import logging
@@ -13,41 +13,52 @@ import requests
 logger = logging.getLogger(__name__)
 
 class MaibMiaSdk:
-    # maib MIA QR API base urls
+    # maib MIA QR base urls
     DEFAULT_BASE_URL = 'https://api.maibmerchants.md/v2/'
     SANDBOX_BASE_URL = 'https://sandbox.maibmerchants.md/v2/'
 
-    # maib MIA QR API endpoints
+    # maib MIA QR endpoints
     AUTH_TOKEN = 'auth/token'
+
     MIA_QR = 'mia/qr'
+    MIA_QR_HYBRID = 'mia/qr/hybrid'
     MIA_QR_ID = 'mia/qr/{id}'
+    MIA_QR_EXTENSION = 'mia/qr/{id}/extension'
     MIA_QR_CANCEL = 'mia/qr/{id}/cancel'
+    MIA_QR_EXTENSION_CANCEL = 'mia/qr/{id}/extension/cancel'
     MIA_PAYMENTS = 'mia/payments'
     MIA_PAYMENTS_ID = 'mia/payments/{id}'
     MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
     MIA_TEST_PAY = 'mia/test-pay'
 
+    MIA_RTP = 'rtp'
+    MIA_RTP_ID = 'rtp/{id}'
+    MIA_RTP_CANCEL = 'rtp/{id}/cancel'
+    MIA_RTP_REFUND = 'rtp/{id}/refund'
+    MIA_RTP_TEST_ACCEPT = 'rtp/{id}/test-accept'
+    MIA_RTP_TEST_REJECT = 'rtp/{id}/test-reject'
+
     DEFAULT_TIMEOUT = 30
 
-    __instance = None
-    __base_url: str = None
+    _instance = None
+    _base_url: str = None
 
     def __init__(self, base_url: str = DEFAULT_BASE_URL):
-        self.__base_url = base_url
+        self._base_url = base_url
 
     @classmethod
     def get_instance(cls):
         """Get the instance of MaibMiaSdk (Singleton pattern)"""
 
-        if cls.__instance is None:
-            cls.__instance = cls()
+        if cls._instance is None:
+            cls._instance = cls()
 
-        return cls.__instance
+        return cls._instance
 
-    def __build_url(self, url: str, entity_id: str = None):
+    def _build_url(self, url: str, entity_id: str = None):
         """Build the complete URL for the request"""
 
-        url = self.__base_url + url
+        url = self._base_url + url
 
         if entity_id:
             url = url.format(id=entity_id)
@@ -58,25 +69,26 @@ class MaibMiaSdk:
         """Send a request and parse the response."""
 
         auth = BearerAuth(token) if token else None
-        url = self.__build_url(url=url, entity_id=entity_id)
+        url = self._build_url(url=url, entity_id=entity_id)
 
-        logger.debug('MaibMiaSdk Request', extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
+        logger.debug('MaibMiaSdk Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
             if not response.ok:
-                logger.error('MaibMiaSdk Error', extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
+                logger.error('MaibMiaSdk Error: %d %s', response.status_code, response.text, extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
                 #response.raise_for_status()
-                return None
 
             response_json: dict = response.json()
-            logger.debug('MaibMiaSdk Response', extra={'response_json': response_json})
+            logger.debug('MaibMiaSdk Response: %d', response.status_code, extra={'response_json': response_json})
             return response_json
 
     @staticmethod
     def handle_response(response: dict, endpoint: str):
         """Handles errors returned by the API."""
 
-        response_ok = response.get('ok')
-        if response_ok is not None and response_ok is True:
+        if not isinstance(response, dict):
+            raise MaibPaymentException(f"Invalid response received from server for endpoint {endpoint}")
+
+        if response.get('ok') is True:
             response_result: dict = response.get('result')
             if response_result is not None:
                 return response_result
@@ -84,8 +96,8 @@ class MaibMiaSdk:
             raise MaibPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'result\' field.')
 
         response_errors = response.get('errors')
-        if response_errors is not None:
-            error = response_errors[0]
+        if isinstance(response_errors, list) and response_errors:
+            error: dict = response_errors[0]
             raise MaibPaymentException(f'Error sending request to endpoint {endpoint}: {error.get('errorMessage')} ({error.get('errorCode')})')
 
         raise MaibPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'ok\' and \'errors\' fields')
@@ -93,7 +105,7 @@ class MaibMiaSdk:
     @staticmethod
     def validate_callback_signature(callback_data: dict, signature_key: str):
         """Validates the callback data signature."""
-        #https://docs.maibmerchants.md/en/notifications-on-callback-url
+        #https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
         #https://github.com/maib-ecomm/maib-sdk-php/blob/main/examples/callbackUrl.php
         #https://github.com/alexminza/maib-ecommerce-sdk-python/blob/main/src/maib_ecommerce_sdk/maibsdk.py#L89
 
