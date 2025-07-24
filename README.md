@@ -1,8 +1,11 @@
 # Python SDK for maib MIA API
-maib MIA QR API docs: [https://docs.maibmerchants.md/mia-qr-api](https://docs.maibmerchants.md/mia-qr-api)
+* maib MIA QR API docs: https://docs.maibmerchants.md/mia-qr-api
+* GitHub project https://github.com/alexminza/maib-mia-sdk-python
+* PyPI package https://pypi.org/project/maib-mia-sdk/
 
 ## Installation
-To easily install or upgrade to the latest release, use `pip`.
+To easily install or upgrade to the latest release, use `pip`:
+
 ```shell
 pip install --upgrade maib_mia_sdk
 ```
