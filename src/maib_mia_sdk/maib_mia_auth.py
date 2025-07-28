@@ -34,10 +34,12 @@ class MaibMiaAuth:
         }
 
         try:
-            response = self._client.send_request('POST', MaibMiaSdk.AUTH_TOKEN, post_data)
+            method = 'POST'
+            endpoint = MaibMiaSdk.AUTH_TOKEN
+            response = self._client.send_request(method=method, endpoint=endpoint, data=post_data)
         except Exception as ex:
             logger.exception('MaibMiaAuth.generate_token')
-            raise MaibTokenException(f'HTTP error while sending POST request to endpoint {MaibMiaSdk.AUTH_TOKEN}') from ex
+            raise MaibTokenException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
         result = self._client.handle_response(response, MaibMiaSdk.AUTH_TOKEN)
         return result
