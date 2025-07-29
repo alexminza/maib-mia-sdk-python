@@ -106,14 +106,13 @@ class MaibMiaSdk:
     def validate_callback_signature(callback_data: dict, signature_key: str):
         """Validates the callback data signature."""
         #https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
-        #https://github.com/maib-ecomm/maib-sdk-php/blob/main/examples/callbackUrl.php
-        #https://github.com/alexminza/maib-ecommerce-sdk-python/blob/main/src/maib_ecommerce_sdk/maibsdk.py#L89
+        #https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
 
         if not signature_key:
             raise MaibPaymentException('Invalid signature key')
 
-        callback_signature = callback_data.get('signature')
-        callback_result = callback_data.get('result')
+        callback_signature: str = callback_data.get('signature')
+        callback_result: dict[str, any] = callback_data.get('result')
 
         if not callback_signature or not callback_result:
             raise MaibPaymentException('Missing result or signature in callback data.')
