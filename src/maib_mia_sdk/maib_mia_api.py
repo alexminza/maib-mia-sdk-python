@@ -18,13 +18,13 @@ class MaibMiaApiRequest:
 class MaibMiaApi:
     _client: MaibMiaSdk = None
 
-    #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic#request-parameters-body
+    # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic#request-parameters-body
     REQUIRED_QR_PARAMS = ['type', 'amountType', 'currency', 'description']
-    #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code#request-body-parameters
+    # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code#request-body-parameters
     REQUIRED_QR_HYBRID_PARAMS = ['amountType', 'currency']
-    #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code/create-extension-for-qr-code-by-id#request-parameters-body
+    # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code/create-extension-for-qr-code-by-id#request-parameters-body
     REQUIRED_QR_EXTENSION_PARAMS = ['expiresAt', 'description']
-    #https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox#request-parameters-body-json
+    # https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox#request-parameters-body-json
     REQUIRED_TEST_PAY_PARAMS = ['qrId', 'amount', 'iban', 'currency', 'payerName']
     REQUIRED_RTP_PARAMS = ['alias', 'amount', 'currency', 'expiresAt', 'description']
     REQUIRED_TEST_ACCEPT_PARAMS = ['amount', 'currency']
@@ -35,61 +35,61 @@ class MaibMiaApi:
     #region QR
     def qr_create(self, data: dict, token: str):
         """Create QR Code (Static, Dynamic)"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/overview/mia-qr-types
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic
+        # https://docs.maibmerchants.md/mia-qr-api/en/overview/mia-qr-types
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=data, token=token, required_params=self.REQUIRED_QR_PARAMS)
 
     def qr_create_hybrid(self, data: dict, token: str):
         """Create Hybrid QR Code"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/overview/mia-qr-types
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code
+        # https://docs.maibmerchants.md/mia-qr-api/en/overview/mia-qr-types
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_QR_HYBRID, data=data, token=token, required_params=self.REQUIRED_QR_HYBRID_PARAMS)
 
     def qr_create_extension(self, qr_id: str, data: dict, token: str):
         """Create Extension for QR Code by ID"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code/create-extension-for-qr-code-by-id
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-hybrid-qr-code/create-extension-for-qr-code-by-id
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_EXTENSION, entity_id=qr_id, token=token, method='POST', data=data)
 
     def qr_details(self, qr_id: str, token: str):
         """Retrieve QR Details by ID"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-qr-details-by-id
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-qr-details-by-id
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_ID, entity_id=qr_id, token=token)
 
     def qr_cancel(self, qr_id: str, data: dict, token: str):
         """Cancel Active QR (Static, Dynamic)"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-cancellation/cancel-active-qr-static-dynamic
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-cancellation/cancel-active-qr-static-dynamic
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_CANCEL, entity_id=qr_id, token=token, method='POST', data=data)
 
     def qr_cancel_extension(self, qr_id: str, data: dict, token: str):
         """Cancel Active QR Extension (Hybrid)"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-cancellation/cancel-active-qr-extension-hybrid
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-cancellation/cancel-active-qr-extension-hybrid
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_QR_EXTENSION_CANCEL, entity_id=qr_id, token=token, method='POST', data=data)
 
     def qr_list(self, params: dict, token: str):
         """Retrieve List of QR Codes with Filtering Options"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/display-list-of-qr-codes-with-filtering-options
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/display-list-of-qr-codes-with-filtering-options
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_QR, data=None, token=token, required_params=None, method='GET', params=params)
     #endregion
 
     #region Payment
     def test_pay(self, data: dict, token: str):
         """Payment Simulation (Sandbox)"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox
+        # https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_TEST_PAY, data=data, token=token, required_params=self.REQUIRED_TEST_PAY_PARAMS)
 
     def payment_details(self, pay_id: str, token: str):
         """Retrieve Payment Details by ID"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-payment-details-by-id
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-payment-details-by-id
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_ID, entity_id=pay_id, token=token)
 
     def payment_refund(self, pay_id: str, data: dict, token: str):
         """Refund Completed Payment"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-refund/refund-completed-payment
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-refund/refund-completed-payment
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     def payment_list(self, params: dict, token: str):
         """Retrieve List of Payments with Filtering Options"""
-        #https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-list-of-payments-with-filtering-options
+        # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-list-of-payments-with-filtering-options
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, data=None, token=token, required_params=None, method='GET', params=params)
     #endregion
 

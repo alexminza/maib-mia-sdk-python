@@ -9,15 +9,16 @@ import base64
 import requests
 
 # Based on Python SDK for maib ecommerce API https://github.com/alexminza/maib-ecommerce-sdk-python (https://pypi.org/project/maib-ecommerce-sdk/)
+# maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
 
 logger = logging.getLogger(__name__)
 
 class MaibMiaSdk:
-    # maib MIA QR base urls
+    # maib MIA QR API base urls
     DEFAULT_BASE_URL = 'https://api.maibmerchants.md/v2/'
     SANDBOX_BASE_URL = 'https://sandbox.maibmerchants.md/v2/'
 
-    # maib MIA QR endpoints
+    # maib MIA QR API endpoints
     AUTH_TOKEN = 'auth/token'
 
     MIA_QR = 'mia/qr'
@@ -105,8 +106,8 @@ class MaibMiaSdk:
     @staticmethod
     def validate_callback_signature(callback_data: dict, signature_key: str):
         """Validates the callback data signature."""
-        #https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
-        #https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
+        # https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
+        # https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
 
         if not signature_key:
             raise MaibPaymentException('Invalid signature key')
@@ -150,7 +151,7 @@ class MaibMiaSdk:
 #region Requests
 class BearerAuth(requests.auth.AuthBase):
     """Attaches HTTP Bearer Token Authentication to the given Request object."""
-    #https://requests.readthedocs.io/en/latest/user/authentication/#new-forms-of-authentication
+    # https://requests.readthedocs.io/en/latest/user/authentication/#new-forms-of-authentication
 
     token: str = None
 
