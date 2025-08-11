@@ -1,18 +1,26 @@
 [project]
 name = "maib-mia-sdk"
 version = "1.1.0"
-authors = [
-  { name="Alexander Minza" },
-]
+authors = [{ name = "Alexander Minza" }]
 description = "Python SDK for maib MIA API"
 readme = "README.md"
 requires-python = ">=3.9"
-keywords = ["maib", "moldova", "mia", "qr", "rtp", "payments", "api", "sdk", "python"]
+keywords = [
+  "maib",
+  "moldova",
+  "mia",
+  "qr",
+  "rtp",
+  "payments",
+  "api",
+  "sdk",
+  "python",
+]
 classifiers = [
-    "Intended Audience :: Developers",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Topic :: Software Development :: Libraries :: Python Modules"
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 license = "GPL-3.0-or-later"
 
