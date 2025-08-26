@@ -5,6 +5,7 @@ authors = [{ name = "Alexander Minza" }]
 description = "Python SDK for maib MIA API"
 readme = "README.md"
 requires-python = ">=3.9"
+dependencies = ["requests"]
 keywords = [
   "maib",
   "moldova",
