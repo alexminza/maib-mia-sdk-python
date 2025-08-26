@@ -1,7 +1,7 @@
 """Python SDK for maib MIA API"""
 
 import logging
-from .maib_mia_sdk import MaibMiaSdk, MaibPaymentException
+from .maib_mia_sdk import MaibMiaSdk, MaibMiaPaymentException
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +139,7 @@ class MaibMiaApi:
         try:
             response = self._client.send_request(method=method, url=endpoint, data=data, params=params, token=token, entity_id=entity_id)
         except Exception as ex:
-            raise MaibPaymentException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
+            raise MaibMiaPaymentException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
         return self._client.handle_response(response, endpoint)
 
@@ -148,17 +148,17 @@ class MaibMiaApi:
         """Validates the access token."""
 
         if not token or len(token) == 0:
-            raise MaibPaymentException('Access token is not valid. It should be a non-empty string.')
+            raise MaibMiaPaymentException('Access token is not valid. It should be a non-empty string.')
 
     @staticmethod
     def _validate_id_param(entity_id: str):
         """Validates the ID parameter."""
 
         if not entity_id:
-            raise MaibPaymentException('Missing ID.')
+            raise MaibMiaPaymentException('Missing ID.')
 
         if len(entity_id) == 0:
-            raise MaibPaymentException('Invalid ID parameter. Should be string of 36 characters.')
+            raise MaibMiaPaymentException('Invalid ID parameter. Should be string of 36 characters.')
 
     @staticmethod
     def _validate_params(data: dict, required_params: list):
@@ -168,6 +168,6 @@ class MaibMiaApi:
             # Check that all required parameters are present
             for param in required_params:
                 if data.get(param) is None:
-                    raise MaibPaymentException(f'Missing required parameter: {param}')
+                    raise MaibMiaPaymentException(f'Missing required parameter: {param}')
 
         return True

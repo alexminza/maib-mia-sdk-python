@@ -87,21 +87,21 @@ class MaibMiaSdk:
         """Handles errors returned by the API."""
 
         if not isinstance(response, dict):
-            raise MaibPaymentException(f"Invalid response received from server for endpoint {endpoint}")
+            raise MaibMiaPaymentException(f"Invalid response received from server for endpoint {endpoint}")
 
         if response.get('ok') is True:
             response_result: dict = response.get('result')
             if response_result is not None:
                 return response_result
 
-            raise MaibPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'result\' field.')
+            raise MaibMiaPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'result\' field.')
 
         response_errors = response.get('errors')
         if isinstance(response_errors, list) and response_errors:
             error: dict = response_errors[0]
-            raise MaibPaymentException(f'Error sending request to endpoint {endpoint}: {error.get('errorMessage')} ({error.get('errorCode')})')
+            raise MaibMiaPaymentException(f'Error sending request to endpoint {endpoint}: {error.get('errorMessage')} ({error.get('errorCode')})')
 
-        raise MaibPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'ok\' and \'errors\' fields')
+        raise MaibMiaPaymentException(f'Invalid response received from server for endpoint {endpoint}: missing \'ok\' and \'errors\' fields')
 
     @staticmethod
     def validate_callback_signature(callback_data: dict, signature_key: str):
@@ -110,13 +110,13 @@ class MaibMiaSdk:
         # https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
 
         if not signature_key:
-            raise MaibPaymentException('Invalid signature key')
+            raise MaibMiaPaymentException('Invalid signature key')
 
         callback_signature: str = callback_data.get('signature')
         callback_result: dict[str, any] = callback_data.get('result')
 
         if not callback_signature or not callback_result:
-            raise MaibPaymentException('Missing result or signature in callback data.')
+            raise MaibMiaPaymentException('Missing result or signature in callback data.')
 
         sorted_callback_result = sorted(((key.lower(), value) for key, value in callback_result.items()))
         filtered_callback_result = {
@@ -164,9 +164,9 @@ class BearerAuth(requests.auth.AuthBase):
 #endregion
 
 #region Exceptions
-class MaibTokenException(Exception):
+class MaibMiaTokenException(Exception):
     pass
 
-class MaibPaymentException(Exception):
+class MaibMiaPaymentException(Exception):
     pass
 #endregion

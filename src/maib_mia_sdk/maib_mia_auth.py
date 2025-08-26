@@ -1,7 +1,7 @@
 """Python SDK for maib MIA API"""
 
 import logging
-from .maib_mia_sdk import MaibMiaSdk, MaibTokenException
+from .maib_mia_sdk import MaibMiaSdk, MaibMiaTokenException
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class MaibMiaAuth:
         # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/authentication/obtain-authentication-token
 
         if not client_id and not client_secret:
-            raise MaibTokenException('Client ID and Client Secret are required.')
+            raise MaibMiaTokenException('Client ID and Client Secret are required.')
 
         post_data = {
             'clientId': client_id,
@@ -39,7 +39,7 @@ class MaibMiaAuth:
             response = self._client.send_request(method=method, url=endpoint, data=post_data)
         except Exception as ex:
             logger.exception('MaibMiaAuth.generate_token')
-            raise MaibTokenException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
+            raise MaibMiaTokenException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
         result = self._client.handle_response(response, MaibMiaSdk.AUTH_TOKEN)
         return result
