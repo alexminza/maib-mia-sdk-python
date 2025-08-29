@@ -1,9 +1,7 @@
 """Python SDK for maib MIA API"""
 
-import logging
 from .maib_mia_sdk import MaibMiaSdk, MaibMiaPaymentException
 
-logger = logging.getLogger(__name__)
 
 class MaibMiaApiRequest:
     """Factory class responsible for creating new instances of the MaibMiaApi class."""

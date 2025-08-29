@@ -1,17 +1,17 @@
 """Python SDK for maib MIA API"""
 
 import json
-import logging
 import hashlib
 import hmac
 import base64
 
 import requests
 
+from . import logger
+
 # Based on Python SDK for maib ecommerce API https://github.com/alexminza/maib-ecommerce-sdk-python (https://pypi.org/project/maib-ecommerce-sdk/)
 # maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
 
-logger = logging.getLogger(__name__)
 
 class MaibMiaSdk:
     # maib MIA QR API base urls
