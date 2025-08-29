@@ -9,9 +9,9 @@ import requests
 
 from . import logger
 
+
 # Based on Python SDK for maib ecommerce API https://github.com/alexminza/maib-ecommerce-sdk-python (https://pypi.org/project/maib-ecommerce-sdk/)
 # maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
-
 
 class MaibMiaSdk:
     # maib MIA QR API base urls
