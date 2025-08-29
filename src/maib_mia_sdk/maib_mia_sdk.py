@@ -72,14 +72,14 @@ class MaibMiaSdk:
         auth = BearerAuth(token) if token else None
         url = self._build_url(url=url, entity_id=entity_id)
 
-        logger.debug('MaibMiaSdk Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
+        logger.debug('%s Request: %s %s', self.__qualname__, method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         with requests.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT) as response:
             if not response.ok:
-                logger.error('MaibMiaSdk Error: %d %s', response.status_code, response.text, extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
+                logger.error('%s Error: %d %s', self.__qualname__, response.status_code, response.text, extra={'method': method, 'url': url, 'params': params, 'response_text': response.text, 'status_code': response.status_code})
                 #response.raise_for_status()
 
             response_json: dict = response.json()
-            logger.debug('MaibMiaSdk Response: %d', response.status_code, extra={'response_json': response_json})
+            logger.debug('%s Response: %d', self.__qualname__, response.status_code, extra={'response_json': response_json})
             return response_json
 
     @staticmethod
