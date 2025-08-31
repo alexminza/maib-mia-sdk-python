@@ -182,6 +182,8 @@ class MaibMiaApi:
 
         https://docs.maibmerchants.md/mia-qr-api/en/endpoints/information-retrieval-get/retrieve-list-of-payments-with-filtering-options"""
 
+        return self._execute_operation(endpoint=MaibMiaSdk.MIA_PAYMENTS, data=None, token=token, required_params=None, method='GET', params=params)
+
     async def payment_list_async(self, params: dict, token: str):
         """Retrieve List of Payments with Filtering Options
 
