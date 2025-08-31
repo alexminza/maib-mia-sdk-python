@@ -25,9 +25,6 @@ class MaibMiaAuth:
 
         https://docs.maibmerchants.md/mia-qr-api/en/endpoints/authentication/obtain-authentication-token"""
 
-        if not client_id and not client_secret:
-            raise MaibMiaTokenException('Client ID and Client Secret are required.')
-
         token_data = self._build_generate_data(
             client_id=client_id,
             client_secret=client_secret)
@@ -47,9 +44,6 @@ class MaibMiaAuth:
 
         https://docs.maibmerchants.md/mia-qr-api/en/endpoints/authentication/obtain-authentication-token"""
 
-        if not client_id and not client_secret:
-            raise MaibMiaTokenException('Client ID and Client Secret are required.')
-
         token_data = self._build_generate_data(
             client_id=client_id,
             client_secret=client_secret)
@@ -66,6 +60,9 @@ class MaibMiaAuth:
 
     @classmethod
     def _build_generate_data(cls, client_id: str, client_secret: str):
+        if not client_id and not client_secret:
+            raise MaibMiaTokenException('Client ID and Client Secret are required.')
+
         token_data = {
             'clientId': client_id,
             'clientSecret': client_secret
