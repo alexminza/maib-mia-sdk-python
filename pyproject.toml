@@ -1,6 +1,6 @@
 [project]
 name = "maib-mia-sdk"
-version = "1.1.0"
+version = "1.1.1"
 authors = [{ name = "Alexander Minza" }]
 description = "Python SDK for maib MIA API"
 readme = "README.md"
