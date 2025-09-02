@@ -1,24 +1,32 @@
 [project]
 name = "maib-mia-sdk"
-version = "1.0.9"
-authors = [
-  { name="Alexander Minza" },
-]
-description = "Python SDK for maib MIA QR API"
+version = "1.1.0"
+authors = [{ name = "Alexander Minza" }]
+description = "Python SDK for maib MIA API"
 readme = "README.md"
 requires-python = ">=3.9"
-keywords = ["maib", "moldova", "mia", "qr", "payments", "api", "sdk", "python"]
-classifiers = [
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Topic :: Software Development :: Libraries :: Python Modules"
+dependencies = ["httpx"]
+keywords = [
+  "maib",
+  "moldova",
+  "mia",
+  "qr",
+  "rtp",
+  "payments",
+  "api",
+  "sdk",
+  "python",
 ]
-license.text = "GPL-3.0-or-later"
+classifiers = [
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+license = "GPL-3.0-or-later"
 
 [project.urls]
 Homepage = "https://github.com/alexminza/maib-mia-sdk-python"
 Issues = "https://github.com/alexminza/maib-mia-sdk-python/issues"
 Repository = "https://github.com/alexminza/maib-mia-sdk-python"
-#Documentation = "https://docs.maibmerchants.md"
+Documentation = "https://docs.maibmerchants.md/mia-qr-api"
