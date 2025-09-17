@@ -44,28 +44,11 @@ class MaibMiaSdk:
     DEFAULT_TIMEOUT = 30
 
     _base_url: str = None
+    _redact_secrets: bool = True
 
-    def __init__(self, base_url: str = DEFAULT_BASE_URL):
+    def __init__(self, base_url: str = DEFAULT_BASE_URL, redact_secrets: bool = True):
         self._base_url = base_url
-
-    def _build_url(self, url: str, entity_id: str = None):
-        """Build the complete URL for the request"""
-
-        url = self._base_url + url
-
-        if entity_id:
-            url = url.format(id=entity_id)
-
-        return url
-
-    def _process_response(self, response: httpx.Response):
-        if response.is_error:
-            logger.error(f'{self.__class__.__qualname__} Error: %d %s', response.status_code, response.text, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_text': response.text, 'status_code': response.status_code})
-            #response.raise_for_status()
-
-        response_json: dict = response.json()
-        logger.debug(f'{self.__class__.__qualname__} Response: %d %s %s', response.status_code, response.request.method, response.request.url, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_json': response_json, 'status_code': response.status_code})
-        return response_json
+        self._redact_secrets = redact_secrets
 
     def send_request(self, method: str, url: str, data: dict = None, params: dict = None, token: str = None, entity_id: str = None):
         """Send a request and parse the response."""
@@ -73,7 +56,10 @@ class MaibMiaSdk:
         auth = BearerAuth(token) if token else None
         url = self._build_url(url=url, entity_id=entity_id)
 
-        logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
+        redacted_data = self._redact_data(data) if self._redact_secrets else data
+        redacted_token = self._redact_value(token) if self._redact_secrets else token
+
+        logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': redacted_data, 'params': params, 'token': redacted_token})
         with httpx.Client() as client:
             response = client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT)
             return self._process_response(response=response)
@@ -84,7 +70,10 @@ class MaibMiaSdk:
         auth = BearerAuth(token) if token else None
         url = self._build_url(url=url, entity_id=entity_id)
 
-        logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
+        redacted_data = self._redact_data(data) if self._redact_secrets else data
+        redacted_token = self._redact_value(token) if self._redact_secrets else token
+
+        logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': redacted_data, 'params': params, 'token': redacted_token})
         async with httpx.AsyncClient() as client:
             response = await client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT)
             return self._process_response(response=response)
@@ -154,6 +143,52 @@ class MaibMiaSdk:
                 error_message = 'Unknown error details.'
 
         return error_message
+
+    def _build_url(self, url: str, entity_id: str = None):
+        """Build the complete URL for the request"""
+
+        url = self._base_url + url
+
+        if entity_id:
+            url = url.format(id=entity_id)
+
+        return url
+
+    def _process_response(self, response: httpx.Response):
+        if response.is_error:
+            logger.error(f'{self.__class__.__qualname__} Error: %d %s', response.status_code, response.text, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_text': response.text, 'status_code': response.status_code})
+            #response.raise_for_status()
+
+        response_json: dict = response.json()
+        redacted_data = self._redact_data(response_json) if self._redact_secrets else response_json
+        logger.debug(f'{self.__class__.__qualname__} Response: %d %s %s', response.status_code, response.request.method, response.request.url, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_json': redacted_data, 'status_code': response.status_code})
+        return response_json
+
+    @staticmethod
+    def _redact_data(data: dict[str, any]):
+        if data is None or not isinstance(data, dict):
+            return data
+
+        redacted_data = {}
+        for key, value in data.items():
+            if key in ('clientSecret', 'accessToken'):
+                redacted_data[key] = MaibMiaSdk._redact_value(value)
+            elif isinstance(value, dict):
+                redacted_data[key] = MaibMiaSdk._redact_data(value)
+            else:
+                redacted_data[key] = value
+
+        return redacted_data
+
+    @staticmethod
+    def _redact_value(value: str):
+        if value is None or not isinstance(value, str):
+            return value
+
+        if len(value) <= 8:
+            return '****'
+
+        return f'****{value[-4:]}'
 
 #region Auth
 class BearerAuth(httpx.Auth):
