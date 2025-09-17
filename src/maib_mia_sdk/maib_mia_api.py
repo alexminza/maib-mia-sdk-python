@@ -18,6 +18,11 @@ class MaibMiaApiRequest:
         return MaibMiaApi(client)
 
 class MaibMiaApi:
+    """
+    * https://docs.maibmerchants.md/mia-qr-api/en/endpoints
+    * https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints
+    """
+
     _client: MaibMiaSdk = None
 
     # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic#request-parameters-body

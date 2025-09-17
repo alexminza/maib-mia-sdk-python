@@ -18,6 +18,11 @@ class MaibMiaAuthRequest:
         return MaibMiaAuth(client)
 
 class MaibMiaAuth:
+    """
+    * https://docs.maibmerchants.md/mia-qr-api/en/endpoints/authentication
+    * https://docs.maibmerchants.md/request-to-pay/getting-started/api-fundamentals#authentication
+    """
+
     _client: MaibMiaSdk = None
 
     def __init__(self, client: MaibMiaSdk):

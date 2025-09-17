@@ -12,15 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 # Based on Python SDK for maib ecommerce API https://github.com/alexminza/maib-ecommerce-sdk-python (https://pypi.org/project/maib-ecommerce-sdk/)
-# maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
-# maib Request to Pay (RTP) API https://docs.maibmerchants.md/request-to-pay
 
 class MaibMiaSdk:
+    """
+    * maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
+    * maib Request to Pay (RTP) API https://docs.maibmerchants.md/request-to-pay
+    """
+
     # maib MIA QR API base urls
+    # https://docs.maibmerchants.md/mia-qr-api/en/overview/general-technical-specifications#available-base-urls
+    # https://docs.maibmerchants.md/request-to-pay/getting-started/api-fundamentals#available-environments
     DEFAULT_BASE_URL = 'https://api.maibmerchants.md/v2/'
     SANDBOX_BASE_URL = 'https://sandbox.maibmerchants.md/v2/'
 
     # maib MIA QR API endpoints
+    # https://docs.maibmerchants.md/mia-qr-api/en/endpoints
     AUTH_TOKEN = 'auth/token'
 
     MIA_QR = 'mia/qr'
@@ -34,6 +40,8 @@ class MaibMiaSdk:
     MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
     MIA_TEST_PAY = 'mia/test-pay'
 
+    # maib RTP API endpoint
+    # https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints
     MIA_RTP = 'rtp'
     MIA_RTP_ID = 'rtp/{id}'
     MIA_RTP_CANCEL = 'rtp/{id}/cancel'
@@ -101,11 +109,13 @@ class MaibMiaSdk:
 
     @staticmethod
     def validate_callback_signature(callback_data: dict, signature_key: str):
-        """Validates the callback data signature."""
-        # https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
-        # https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
-        # https://docs.maibmerchants.md/request-to-pay/api-reference/callback-notifications#signature-validation
-        # https://docs.maibmerchants.md/request-to-pay/api-reference/examples/signature-key-verification
+        """Validates the callback data signature.
+
+        * https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
+        * https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
+        * https://docs.maibmerchants.md/request-to-pay/api-reference/callback-notifications#signature-validation
+        * https://docs.maibmerchants.md/request-to-pay/api-reference/examples/signature-key-verification
+        """
 
         if not signature_key:
             raise MaibMiaPaymentException('Invalid signature key')
@@ -132,7 +142,10 @@ class MaibMiaSdk:
 
     @staticmethod
     def get_error_message(response: str):
-        """Retrieves the error message from the API response."""
+        """Retrieves the error message from the API response.
+
+        * https://docs.maibmerchants.md/mia-qr-api/en/errors/api-errors
+        * https://docs.maibmerchants.md/request-to-pay/api-reference/errors/api-errors"""
 
         error_message = ''
         if response:
