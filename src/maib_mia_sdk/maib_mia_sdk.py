@@ -104,6 +104,8 @@ class MaibMiaSdk:
         """Validates the callback data signature."""
         # https://docs.maibmerchants.md/mia-qr-api/en/notifications-on-callback-url
         # https://docs.maibmerchants.md/mia-qr-api/en/examples/signature-key-verification
+        # https://docs.maibmerchants.md/request-to-pay/api-reference/callback-notifications#signature-validation
+        # https://docs.maibmerchants.md/request-to-pay/api-reference/examples/signature-key-verification
 
         if not signature_key:
             raise MaibMiaPaymentException('Invalid signature key')

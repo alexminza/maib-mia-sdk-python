@@ -200,98 +200,98 @@ class MaibMiaApi:
     def rtp_create(self, data: dict, token: str):
         """Create a new payment request (RTP)
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/create-a-new-payment-request-rtp"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp"""
 
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=data, token=token, required_params=self.REQUIRED_RTP_PARAMS)
 
     async def rtp_create_async(self, data: dict, token: str):
         """Create a new payment request (RTP)
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/create-a-new-payment-request-rtp"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp"""
 
         return await self._execute_operation_async(endpoint=MaibMiaSdk.MIA_RTP, data=data, token=token, required_params=self.REQUIRED_RTP_PARAMS)
 
     def rtp_status(self, rtp_id: str, token: str):
         """Retrieve the status of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/retrieve-the-status-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/retrieve-the-status-of-a-payment-request"""
 
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_ID, entity_id=rtp_id, token=token)
 
     async def rtp_status_async(self, rtp_id: str, token: str):
         """Retrieve the status of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/retrieve-the-status-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/retrieve-the-status-of-a-payment-request"""
 
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_ID, entity_id=rtp_id, token=token)
 
     def rtp_cancel(self, rtp_id: str, data: dict, token: str):
         """Cancel a pending payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/cancel-a-pending-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/cancel-a-pending-payment-request"""
 
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_CANCEL, entity_id=rtp_id, token=token, method='POST', data=data)
 
     async def rtp_cancel_async(self, rtp_id: str, data: dict, token: str):
         """Cancel a pending payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/cancel-a-pending-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/cancel-a-pending-payment-request"""
 
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_CANCEL, entity_id=rtp_id, token=token, method='POST', data=data)
 
     def rtp_list(self, params: dict, token: str):
         """List all payment requests
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/list-all-payment-requests"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/list-all-payment-requests"""
 
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=None, token=token, required_params=None, method='GET', params=params)
 
     async def rtp_list_async(self, params: dict, token: str):
         """List all payment requests
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/list-all-payment-requests"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/list-all-payment-requests"""
 
         return await self._execute_operation_async(endpoint=MaibMiaSdk.MIA_RTP, data=None, token=token, required_params=None, method='GET', params=params)
 
     def rtp_refund(self, pay_id: str, data: dict, token: str):
         """Initiate a refund for a completed payment
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/initiate-a-refund-for-a-completed-payment"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/initiate-a-refund-for-a-completed-payment"""
 
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     async def rtp_refund_async(self, pay_id: str, data: dict, token: str):
         """Initiate a refund for a completed payment
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/editor/initiate-a-refund-for-a-completed-payment"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/initiate-a-refund-for-a-completed-payment"""
 
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     def rtp_test_accept(self, rtp_id: str, data: dict, token: str):
         """Simulate acceptance of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/markdown/simulate-acceptance-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request"""
 
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_ACCEPT, entity_id=rtp_id, token=token, method='POST', data=data)
 
     async def rtp_test_accept_async(self, rtp_id: str, data: dict, token: str):
         """Simulate acceptance of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/markdown/simulate-acceptance-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request"""
 
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_TEST_ACCEPT, entity_id=rtp_id, token=token, method='POST', data=data)
 
     def rtp_test_reject(self, rtp_id: str, token: str):
         """Simulate rejection of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/markdown/simulate-rejection-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-rejection-of-a-payment-request"""
 
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_REJECT, entity_id=rtp_id, token=token, method='POST')
 
     async def rtp_test_reject_async(self, rtp_id: str, token: str):
         """Simulate rejection of a payment request
 
-        https://docs.maibmerchants.md/request-to-pay/api-reference/markdown/simulate-rejection-of-a-payment-request"""
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-rejection-of-a-payment-request"""
 
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_TEST_REJECT, entity_id=rtp_id, token=token, method='POST')
     #endregion
