@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 # Based on Python SDK for maib ecommerce API https://github.com/alexminza/maib-ecommerce-sdk-python (https://pypi.org/project/maib-ecommerce-sdk/)
 # maib MIA QR API https://docs.maibmerchants.md/mia-qr-api
+# maib Request to Pay (RTP) API https://docs.maibmerchants.md/request-to-pay
 
 class MaibMiaSdk:
     # maib MIA QR API base urls

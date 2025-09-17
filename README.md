@@ -1,5 +1,6 @@
 # Python SDK for maib MIA API
 * maib MIA QR API docs: https://docs.maibmerchants.md/mia-qr-api
+* maib Request to Pay (RTP) docs: https://docs.maibmerchants.md/request-to-pay
 * GitHub project https://github.com/alexminza/maib-mia-sdk-python
 * PyPI package https://pypi.org/project/maib-mia-sdk/
 
