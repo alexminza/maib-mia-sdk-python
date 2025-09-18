@@ -33,7 +33,9 @@ class MaibMiaApi:
     REQUIRED_QR_EXTENSION_PARAMS = ['expiresAt', 'description']
     # https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox#request-parameters-body-json
     REQUIRED_TEST_PAY_PARAMS = ['qrId', 'amount', 'iban', 'currency', 'payerName']
+    # https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp#request-body-parameters
     REQUIRED_RTP_PARAMS = ['alias', 'amount', 'currency', 'expiresAt', 'description']
+    # https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request#request-body-parameters
     REQUIRED_TEST_ACCEPT_PARAMS = ['amount', 'currency']
 
     def __init__(self, client: MaibMiaSdk):

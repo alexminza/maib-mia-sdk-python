@@ -27,7 +27,7 @@
             }
         },
         {
-            //https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives
+            // https://packaging.python.org/en/latest/tutorials/packaging-projects/#generating-distribution-archives
             "label": "Python: build",
             "type": "shell",
             "group": {
@@ -45,7 +45,7 @@
             }
         },
         {
-            //https://packaging.python.org/en/latest/tutorials/packaging-projects/#uploading-the-distribution-archives
+            // https://packaging.python.org/en/latest/tutorials/packaging-projects/#uploading-the-distribution-archives
             "label": "Python: twine upload",
             "type": "shell",
             "command": "${command:python.interpreterPath}",
