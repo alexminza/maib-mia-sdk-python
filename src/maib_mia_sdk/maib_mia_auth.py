@@ -11,10 +11,10 @@ class MaibMiaAuthRequest:
     """Factory class responsible for creating new instances of the MaibMiaAuth class."""
 
     @staticmethod
-    def create(base_url: str = MaibMiaSdk.DEFAULT_BASE_URL, redact_secrets: bool = True):
+    def create(base_url: str = MaibMiaSdk.DEFAULT_BASE_URL):
         """Creates an instance of the MaibMiaAuth class."""
 
-        client = MaibMiaSdk(base_url=base_url, redact_secrets=redact_secrets)
+        client = MaibMiaSdk(base_url=base_url)
         return MaibMiaAuth(client)
 
 class MaibMiaAuth:
