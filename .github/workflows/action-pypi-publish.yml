@@ -1,5 +1,5 @@
-#https://github.com/marketplace/actions/pypi-publish
-#https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+# https://github.com/marketplace/actions/pypi-publish
+# https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
 name: Publish Python 🐍 distribution 📦 to PyPI
 

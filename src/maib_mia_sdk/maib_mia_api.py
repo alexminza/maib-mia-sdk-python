@@ -18,6 +18,11 @@ class MaibMiaApiRequest:
         return MaibMiaApi(client)
 
 class MaibMiaApi:
+    """
+    * https://docs.maibmerchants.md/mia-qr-api/en/endpoints
+    * https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints
+    """
+
     _client: MaibMiaSdk = None
 
     # https://docs.maibmerchants.md/mia-qr-api/en/endpoints/payment-initiation/create-qr-code-static-dynamic#request-parameters-body
@@ -28,7 +33,9 @@ class MaibMiaApi:
     REQUIRED_QR_EXTENSION_PARAMS = ['expiresAt', 'description']
     # https://docs.maibmerchants.md/mia-qr-api/en/payment-simulation-sandbox#request-parameters-body-json
     REQUIRED_TEST_PAY_PARAMS = ['qrId', 'amount', 'iban', 'currency', 'payerName']
+    # https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp#request-body-parameters
     REQUIRED_RTP_PARAMS = ['alias', 'amount', 'currency', 'expiresAt', 'description']
+    # https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request#request-body-parameters
     REQUIRED_TEST_ACCEPT_PARAMS = ['amount', 'currency']
 
     def __init__(self, client: MaibMiaSdk):
@@ -198,59 +205,101 @@ class MaibMiaApi:
 
     #region RTP
     def rtp_create(self, data: dict, token: str):
-        """Creates an individual payment request (Request to Pay), which will be sent to the end user through the banking application."""
+        """Create a new payment request (RTP)
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp"""
+
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=data, token=token, required_params=self.REQUIRED_RTP_PARAMS)
 
     async def rtp_create_async(self, data: dict, token: str):
-        """Creates an individual payment request (Request to Pay), which will be sent to the end user through the banking application."""
+        """Create a new payment request (RTP)
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/create-a-new-payment-request-rtp"""
+
         return await self._execute_operation_async(endpoint=MaibMiaSdk.MIA_RTP, data=data, token=token, required_params=self.REQUIRED_RTP_PARAMS)
 
     def rtp_status(self, rtp_id: str, token: str):
-        """Get the current status of an RTP request."""
+        """Retrieve the status of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/retrieve-the-status-of-a-payment-request"""
+
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_ID, entity_id=rtp_id, token=token)
 
     async def rtp_status_async(self, rtp_id: str, token: str):
-        """Get the current status of an RTP request."""
+        """Retrieve the status of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/retrieve-the-status-of-a-payment-request"""
+
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_ID, entity_id=rtp_id, token=token)
 
     def rtp_cancel(self, rtp_id: str, data: dict, token: str):
-        """Cancels an RTP request that is in pending status. The request cannot be canceled if it has already been accepted, rejected, or expired."""
+        """Cancel a pending payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/cancel-a-pending-payment-request"""
+
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_CANCEL, entity_id=rtp_id, token=token, method='POST', data=data)
 
     async def rtp_cancel_async(self, rtp_id: str, data: dict, token: str):
-        """Cancels an RTP request that is in pending status. The request cannot be canceled if it has already been accepted, rejected, or expired."""
+        """Cancel a pending payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/cancel-a-pending-payment-request"""
+
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_CANCEL, entity_id=rtp_id, token=token, method='POST', data=data)
 
     def rtp_list(self, params: dict, token: str):
-        """Returns the list of RTP requests for the merchant, with filtering options."""
+        """List all payment requests
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/list-all-payment-requests"""
+
         return self._execute_operation(endpoint=MaibMiaSdk.MIA_RTP, data=None, token=token, required_params=None, method='GET', params=params)
 
     async def rtp_list_async(self, params: dict, token: str):
-        """Returns the list of RTP requests for the merchant, with filtering options."""
+        """List all payment requests
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/list-all-payment-requests"""
+
         return await self._execute_operation_async(endpoint=MaibMiaSdk.MIA_RTP, data=None, token=token, required_params=None, method='GET', params=params)
 
     def rtp_refund(self, pay_id: str, data: dict, token: str):
-        """Initiate Refund for a RTP with Accepted status"""
+        """Initiate a refund for a completed payment
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/initiate-a-refund-for-a-completed-payment"""
+
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     async def rtp_refund_async(self, pay_id: str, data: dict, token: str):
-        """Initiate Refund for a RTP with Accepted status"""
+        """Initiate a refund for a completed payment
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints/initiate-a-refund-for-a-completed-payment"""
+
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_REFUND, entity_id=pay_id, token=token, method='POST', data=data)
 
     def rtp_test_accept(self, rtp_id: str, data: dict, token: str):
-        """Test RTP simulation is only allowed in the sandbox environment."""
+        """Simulate acceptance of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request"""
+
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_ACCEPT, entity_id=rtp_id, token=token, method='POST', data=data)
 
     async def rtp_test_accept_async(self, rtp_id: str, data: dict, token: str):
-        """Test RTP simulation is only allowed in the sandbox environment."""
+        """Simulate acceptance of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-acceptance-of-a-payment-request"""
+
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_TEST_ACCEPT, entity_id=rtp_id, token=token, method='POST', data=data)
 
     def rtp_test_reject(self, rtp_id: str, token: str):
-        """Test RTP simulation is only allowed in the sandbox environment."""
+        """Simulate rejection of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-rejection-of-a-payment-request"""
+
         return self._execute_entity_id_operation(endpoint=MaibMiaSdk.MIA_RTP_TEST_REJECT, entity_id=rtp_id, token=token, method='POST')
 
     async def rtp_test_reject_async(self, rtp_id: str, token: str):
-        """Test RTP simulation is only allowed in the sandbox environment."""
+        """Simulate rejection of a payment request
+
+        https://docs.maibmerchants.md/request-to-pay/api-reference/sandbox-simulation-environment/simulate-rejection-of-a-payment-request"""
+
         return await self._execute_entity_id_operation_async(endpoint=MaibMiaSdk.MIA_RTP_TEST_REJECT, entity_id=rtp_id, token=token, method='POST')
     #endregion
 
@@ -271,7 +320,7 @@ class MaibMiaApi:
         try:
             response = self._client.send_request(method=method, url=endpoint, data=data, params=params, token=token, entity_id=entity_id)
         except Exception as ex:
-            logger.exception(MaibMiaApi.__qualname__)
+            logger.exception(self.__class__.__qualname__)
             raise MaibMiaPaymentException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
         return self._client.handle_response(response, endpoint)
@@ -294,7 +343,7 @@ class MaibMiaApi:
         try:
             response = await self._client.send_request_async(method=method, url=endpoint, data=data, params=params, token=token, entity_id=entity_id)
         except Exception as ex:
-            logger.exception(MaibMiaApi.__qualname__)
+            logger.exception(self.__class__.__qualname__)
             raise MaibMiaPaymentException(f'HTTP error while sending {method} request to endpoint {endpoint}: {ex}') from ex
 
         return self._client.handle_response(response, endpoint)
