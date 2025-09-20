@@ -163,11 +163,11 @@ class MaibMiaSdk:
 
     def _process_response(self, response: httpx.Response):
         if response.is_error:
-            logger.error(f'{self.__class__.__qualname__} Error: %d %s', response.status_code, response.text, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_text': response.text, 'status_code': response.status_code})
+            logger.error(f'{self.__class__.__qualname__} Error: %d %s', response.status_code, response.text, extra={'method': response.request.method, 'url': str(response.request.url), 'response_text': response.text, 'status_code': response.status_code})
             #response.raise_for_status()
 
         response_json: dict = response.json()
-        logger.debug(f'{self.__class__.__qualname__} Response: %d %s %s', response.status_code, response.request.method, response.request.url, extra={'method': response.request.method, 'url': response.request.url, 'params': response.request.url.params, 'response_json': response_json, 'status_code': response.status_code})
+        logger.debug(f'{self.__class__.__qualname__} Response: %d %s %s', response.status_code, response.request.method, response.request.url, extra={'method': response.request.method, 'url': str(response.request.url), 'response_json': response_json, 'status_code': response.status_code})
         return response_json
 
 #region Auth
