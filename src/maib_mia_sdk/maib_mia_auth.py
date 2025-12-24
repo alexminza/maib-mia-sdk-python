@@ -71,7 +71,7 @@ class MaibMiaAuth:
 
     @classmethod
     def _build_generate_data(cls, client_id: str, client_secret: str):
-        if not client_id and not client_secret:
+        if not client_id or not client_secret:
             raise MaibMiaTokenException('Client ID and Client Secret are required.')
 
         token_data = {
