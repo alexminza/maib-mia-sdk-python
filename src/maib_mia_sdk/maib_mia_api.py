@@ -376,6 +376,4 @@ class MaibMiaApi:
             for param in required_params:
                 if data.get(param) is None:
                     raise MaibMiaPaymentException(f'Missing required parameter: {param}')
-
-        return True
     #endregion

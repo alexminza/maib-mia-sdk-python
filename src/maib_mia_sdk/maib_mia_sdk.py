@@ -40,7 +40,7 @@ class MaibMiaSdk:
     MIA_PAYMENTS_REFUND = 'mia/payments/{id}/refund'
     MIA_TEST_PAY = 'mia/test-pay'
 
-    # maib RTP API endpoint
+    # maib RTP API endpoints
     # https://docs.maibmerchants.md/request-to-pay/api-reference/endpoints
     MIA_RTP = 'rtp'
     MIA_RTP_ID = 'rtp/{id}'
