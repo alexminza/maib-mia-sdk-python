@@ -51,10 +51,12 @@ class MaibMiaSdk:
 
     DEFAULT_TIMEOUT = 30
 
-    _base_url: str = None
+    _base_url: str = DEFAULT_BASE_URL
+    _timeout: int = DEFAULT_TIMEOUT
 
-    def __init__(self, base_url: str = DEFAULT_BASE_URL):
+    def __init__(self, base_url: str = DEFAULT_BASE_URL, timeout: int = DEFAULT_TIMEOUT):
         self._base_url = base_url
+        self._timeout = timeout
 
     def send_request(self, method: str, url: str, data: dict = None, params: dict = None, token: str = None, entity_id: str = None):
         """Send a request and parse the response."""
@@ -64,7 +66,7 @@ class MaibMiaSdk:
 
         logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         with httpx.Client() as client:
-            response = client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT)
+            response = client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self._timeout)
             return self._process_response(response=response)
 
     async def send_request_async(self, method: str, url: str, data: dict = None, params: dict = None, token: str = None, entity_id: str = None):
@@ -75,7 +77,7 @@ class MaibMiaSdk:
 
         logger.debug(f'{self.__class__.__qualname__} Request: %s %s', method, url, extra={'method': method, 'url': url, 'data': data, 'params': params, 'token': token})
         async with httpx.AsyncClient() as client:
-            response = await client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self.DEFAULT_TIMEOUT)
+            response = await client.request(method=method, url=url, params=params, json=data, auth=auth, timeout=self._timeout)
             return self._process_response(response=response)
 
     @staticmethod
