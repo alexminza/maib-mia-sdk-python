@@ -1,4 +1,7 @@
 # Python SDK for maib MIA API
+
+![maib MIA](https://repository-images.githubusercontent.com/966722025/2d2910a1-fcce-477f-9735-c9b4c0964cf6)
+
 * maib MIA QR API docs: https://docs.maibmerchants.md/mia-qr-api
 * maib Request to Pay (RTP) docs: https://docs.maibmerchants.md/request-to-pay
 * GitHub project https://github.com/alexminza/maib-mia-sdk-python
